@@ -3,9 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GEOSAN – Geologia, Meio Ambiente e Segurança do Trabalho | Santarém, PA</title>
+<title>GEOSAN | Geologia, Meio Ambiente e Segurança do Trabalho</title>
 <meta name="description" content="Licenciamento ambiental, processos ANM, regularização rural, outorgas de água e segurança do trabalho em Santarém e no Oeste do Pará.">
-<link rel="icon" href="assets/logo-simbolo.webp">
+<meta name="application-name" content="GEOSAN">
+<meta name="apple-mobile-web-app-title" content="GEOSAN">
+<meta name="theme-color" content="#0F3D2E">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GEOSAN">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="GEOSAN | Geologia, Meio Ambiente e Segurança do Trabalho">
+<meta property="og:description" content="Licença, regularização e conformidade para o seu negócio operar sem travas. Santarém e Oeste do Pará.">
+<meta property="og:image" content="assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"GEOSAN – Geologia e Serviços Ambientais","legalName":"D F Bento Geologia e Serviços Ambientais","taxID":"33.575.177/0001-75","telephone":"+55 93 98119-5375","email":"consultoria@geosan.site","logo":"assets/favicon-512.png","address":{"@type":"PostalAddress","streetAddress":"Rua João Batista Miléo, 56 – Urumari","addressLocality":"Santarém","addressRegion":"PA","addressCountry":"BR"},"areaServed":"Oeste do Pará"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
@@ -40,8 +54,26 @@ header.scrolled{border-color:var(--linha)}
 .nav .btn{padding:10px 18px;font-size:14px}
 
 /* Hero */
-.hero{padding:180px 0 120px;border:0}
-.hero h1{font-size:clamp(38px,6vw,68px);font-weight:700;max-width:880px}
+.hero{padding:160px 0 110px;border:0;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(34px,5.2vw,62px);font-weight:700;max-width:760px}
+
+/* Bloco geológico 3D */
+.bloco{--s:210px;--abre:4px;--tx:0deg;--ty:0deg;position:relative;height:440px;display:grid;place-items:center;perspective:1000px;touch-action:pan-y}
+.tilt{transform-style:preserve-3d;transform:rotateX(calc(-24deg + var(--tx))) rotateY(var(--ty));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.gira{transform-style:preserve-3d;animation:gira 28s linear infinite}
+.bloco.pausa .gira{animation-play-state:paused}
+@keyframes gira{to{transform:rotateY(360deg)}}
+.camada{position:absolute;left:0;top:var(--y);transform-style:preserve-3d;transform:translateY(calc(var(--i) * var(--abre)))}
+.f{position:absolute;left:calc(var(--s) / -2);top:0;width:var(--s);height:var(--h);background:var(--c) linear-gradient(180deg,rgba(255,255,255,.14),rgba(0,0,0,.08));backface-visibility:hidden}
+.f.fr{transform:translateZ(calc(var(--s) / 2))}
+.f.tr{transform:rotateY(180deg) translateZ(calc(var(--s) / 2));filter:brightness(.78)}
+.f.di{transform:rotateY(90deg) translateZ(calc(var(--s) / 2));filter:brightness(.86)}
+.f.es{transform:rotateY(-90deg) translateZ(calc(var(--s) / 2));filter:brightness(.93)}
+.f.to{top:calc(var(--s) / -2);height:var(--s);transform:rotateX(90deg);filter:none;background:var(--c) repeating-radial-gradient(circle at 62% 40%,transparent 0 14px,rgba(255,255,255,.22) 14px 15.5px)}
+.f.ba{top:calc(var(--h) - var(--s) / 2);height:var(--s);transform:rotateX(-90deg);filter:brightness(.6)}
+.broto{position:absolute;left:-22px;top:-78px;width:44px;height:78px;transform:rotateY(var(--contra,0deg))}
+.chao{position:absolute;bottom:34px;width:62%;height:26px;border-radius:50%;background:radial-gradient(rgba(15,61,46,.22),transparent 70%);filter:blur(4px)}
 .hero p{font-size:clamp(17px,1.6vw,20px);color:var(--muted);max-width:600px;margin:28px 0 40px}
 .hero .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:28px}
 .orgaos{margin-top:88px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 32px;font-size:14px;color:var(--muted)}
@@ -93,6 +125,9 @@ footer a:hover{color:var(--verde)}
 
 @media (max-width:900px){
   .nav ul{display:none}
+  .hero-grid{grid-template-columns:1fr;gap:8px}
+  .bloco{--s:132px;height:250px;order:-1;margin-top:-24px}
+  .chao{bottom:10px}
   .servico{grid-template-columns:40px 1fr auto;gap:12px 20px}
   .servico ul{grid-column:2/3}
   .servico .ir{grid-row:1;grid-column:3}
@@ -134,7 +169,8 @@ footer a:hover{color:var(--verde)}
 
 <main>
 <section class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+   <div>
     <h1 class="rv">Licença, regularização e conformidade para o seu negócio operar sem travas.</h1>
     <p class="rv">Geologia, meio ambiente e segurança do trabalho em uma única consultoria, com sede em Santarém e atuação em todo o Oeste do Pará.</p>
     <div class="ctas rv">
@@ -144,6 +180,11 @@ footer a:hover{color:var(--verde)}
     <div class="orgaos rv">
       <span>Trâmite direto com</span>
       <strong>ANM</strong><strong>SEMAS-PA</strong><strong>SEMMA</strong><strong>INCRA</strong><strong>IBAMA</strong>
+    </div>
+   </div>
+    <div class="bloco" id="bloco" aria-hidden="true">
+      <div class="chao"></div>
+      <div class="tilt"><div class="gira" id="gira"></div></div>
     </div>
   </div>
 </section>
@@ -259,6 +300,43 @@ const io = new IntersectionObserver(entries => entries.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
 }), {threshold: .1});
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
+// O topo aparece sem depender do observer
+requestAnimationFrame(() => document.querySelectorAll('.hero .rv').forEach(el => el.classList.add('on')));
+
+// Bloco geológico 3D: camadas de solo e água como no símbolo da marca
+const bloco = document.getElementById('bloco');
+const camadas = [['#6DB33F', 16], ['#D58A35', 28], ['#A34E1E', 24], ['#6B3214', 20], ['#2AABE2', 24], ['#1667B0', 28]];
+const total = camadas.reduce((t, [, h]) => t + h, 0);
+const folha = '<svg viewBox="0 0 44 78"><path d="M22 78C22 52 20 38 26 24" stroke="#3E8E2F" stroke-width="3" fill="none"/><path d="M26 26C20 10 30 0 44 2c0 16-8 26-18 24z" fill="#7CC242"/><path d="M24 40C14 34 4 36 0 44c10 8 20 6 24-4z" fill="#5FA829"/></svg>';
+let y = -total / 2;
+document.getElementById('gira').innerHTML = camadas.map(([c, h], i) => {
+  const faces = ['fr', 'tr', 'di', 'es'].concat(i === 0 ? 'to' : [], i === camadas.length - 1 ? 'ba' : []);
+  const html = `<div class="camada" style="--c:${c};--h:${h}px;--y:${y}px;--i:${i}">${faces.map(f => `<div class="f ${f}"></div>`).join('')}${i === 0 ? `<div class="broto">${folha}</div><div class="broto" style="transform:rotateY(90deg)">${folha}</div>` : ''}</div>`;
+  y += h;
+  return html;
+}).join('');
+
+const reduzMovimento = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduzMovimento) bloco.classList.add('pausa');
+
+// Inclina com o mouse (desktop) e abre as camadas ao rolar (todos)
+bloco.closest('.hero').addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  const r = bloco.getBoundingClientRect();
+  bloco.style.setProperty('--ty', ((e.clientX - r.left) / r.width - .5) * 30 + 'deg');
+  bloco.style.setProperty('--tx', ((e.clientY - r.top) / r.height - .5) * -14 + 'deg');
+});
+let pendente = false;
+addEventListener('scroll', () => {
+  if (pendente || reduzMovimento) return;
+  pendente = true;
+  requestAnimationFrame(() => {
+    const p = Math.min(scrollY / (innerHeight * .6), 1);
+    bloco.style.setProperty('--abre', 4 + p * 22 + 'px');
+    pendente = false;
+  });
+}, {passive: true});
+new IntersectionObserver(([e]) => !reduzMovimento && bloco.classList.toggle('pausa', !e.isIntersecting)).observe(bloco);
 
 document.getElementById('form').addEventListener('submit', e => {
   e.preventDefault();
