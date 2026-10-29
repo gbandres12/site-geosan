@@ -140,6 +140,17 @@ header.scrolled{border-color:var(--linha)}
 .fonte{font-size:12px;color:var(--muted);margin-top:16px}
 @media (max-width:900px){.diag,.graficos{grid-template-columns:1fr;gap:32px}.cards{grid-template-columns:1fr 1fr}.res{padding:24px}}
 
+/* Em campo */
+.campo{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;grid-auto-rows:230px;gap:14px;margin-top:56px}
+.campo figure{position:relative;overflow:hidden;border-radius:16px;background:var(--linha)}
+.campo img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.campo figure:hover img{transform:scale(1.04)}
+.campo figcaption{position:absolute;inset:auto 0 0;padding:40px 18px 14px;color:#fff;font-size:14px;font-weight:500;background:linear-gradient(transparent,rgba(8,30,22,.78))}
+.campo .alto{grid-row:span 2}
+.campo .alto img{object-position:22% center}
+.campo .largo{grid-column:span 2}
+@media (max-width:900px){.campo{grid-template-columns:1fr 1fr;grid-auto-rows:170px;gap:10px}.campo figcaption{font-size:13px;padding:30px 12px 10px}}
+
 /* Contato */
 .contato{display:grid;grid-template-columns:1fr 1fr;gap:80px}
 .dados{margin-top:40px;display:grid;gap:22px;font-size:15px}
@@ -270,6 +281,22 @@ footer a:hover{color:var(--verde)}
         <a class="ir" data-wa="Olá, GEOSAN! Preciso de PGR, PCMSO, LTCAT ou treinamentos de segurança do trabalho." href="#" aria-label="Falar sobre segurança do trabalho"><svg><use href="#i-arrow"/></svg></a>
       </li>
     </ol>
+  </div>
+</section>
+
+<section id="campo">
+  <div class="wrap">
+    <p class="rotulo rv">Em campo</p>
+    <h2 class="rv">Vistoria no local, não só no papel.</h2>
+    <p class="lead rv">Nossa equipe acompanha cada empreendimento de perto, da primeira visita técnica à emissão da licença.</p>
+    <div class="campo">
+      <figure class="rv alto"><img src="assets/campo/caminhao-tanque.webp" alt="Técnicos da GEOSAN vistoriando caminhão-tanque de combustível" loading="lazy" decoding="async"><figcaption>Vistoria de transporte de combustíveis</figcaption></figure>
+      <figure class="rv"><img src="assets/campo/serraria.webp" alt="Técnica da GEOSAN fazendo checklist em serraria" loading="lazy" decoding="async"><figcaption>Inspeção em indústria madeireira</figcaption></figure>
+      <figure class="rv largo"><img src="assets/campo/visita-campo.webp" alt="Equipe da GEOSAN em reunião de campo com o cliente" loading="lazy" decoding="async"><figcaption>Visita técnica e orientação ao cliente</figcaption></figure>
+      <figure class="rv"><img src="assets/campo/testemunho-sondagem.webp" alt="Cristal de quartzo ao lado de caixas de testemunho de sondagem" loading="lazy" decoding="async"><figcaption>Descrição de testemunhos de sondagem</figcaption></figure>
+      <figure class="rv"><img src="assets/campo/acaizal.webp" alt="Plantio de açaí em propriedade rural" loading="lazy" decoding="async"><figcaption>Regularização de propriedades rurais</figcaption></figure>
+      <figure class="rv"><img src="assets/campo/hidrometro.webp" alt="Instalação de hidrômetro em poço tubular" loading="lazy" decoding="async"><figcaption>Outorga e monitoramento de poços</figcaption></figure>
+    </div>
   </div>
 </section>
 
