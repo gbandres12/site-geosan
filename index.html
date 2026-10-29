@@ -97,6 +97,49 @@ header.scrolled{border-color:var(--linha)}
 .porque p{color:var(--muted);font-size:15px}
 .porque div{border-top:2px solid var(--verde);padding-top:24px}
 
+
+/* Diagnóstico */
+.diag{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;margin-top:56px;align-items:start}
+.perg{display:grid;gap:26px}
+.perg legend{font-size:14px;font-weight:600;margin-bottom:10px}
+.perg fieldset{border:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips input{position:absolute;opacity:0;width:1px}
+.chips label{margin:0;padding:8px 14px;border:1.5px solid var(--linha);border-radius:999px;font-size:14px;cursor:pointer;transition:.2s;background:#fff}
+.chips input:checked+label{background:var(--verde);border-color:var(--verde);color:#fff}
+.chips input:focus-visible+label{outline:2px solid var(--acento);outline-offset:2px}
+.res{background:#fff;border:1px solid var(--linha);border-radius:20px;padding:32px}
+.res-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.res-top b{font:700 40px "Plus Jakarta Sans",sans-serif;color:var(--verde)}
+.res-top span{color:var(--muted);font-size:14px}
+.itens{list-style:none;display:grid;gap:14px}
+.itens li{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding-bottom:14px;border-bottom:1px solid var(--linha);animation:entra .4s ease both}
+.itens li small{color:var(--muted);font-size:13px;grid-column:1}
+.itens li em{grid-row:1/3;grid-column:2;font-style:normal;font-size:13px;color:var(--acento);font-weight:600;align-self:center;text-align:right}
+.barra{height:8px;border-radius:4px;background:var(--linha);margin:22px 0 6px;position:relative;overflow:hidden}
+.barra i{position:absolute;inset:0 auto 0 0;background:var(--acento);border-radius:4px;transition:width .6s ease}
+.res .nota{font-size:12px;color:var(--muted);margin:18px 0 20px}
+@keyframes entra{from{opacity:0;transform:translateY(6px)}}
+
+/* Monitor */
+.mon-top{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.cidades{display:flex;gap:8px;flex-wrap:wrap}
+.cidades button{font:14px Inter;padding:8px 14px;border-radius:999px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--texto)}
+.cidades button[aria-pressed=true]{background:var(--verde);border-color:var(--verde);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.card{background:#fff;border:1px solid var(--linha);border-radius:16px;padding:22px}
+.card small{display:block;color:var(--muted);font-size:13px}
+.card b{display:block;font:700 30px "Plus Jakarta Sans",sans-serif;color:var(--verde);margin-top:6px;font-variant-numeric:tabular-nums}
+.card span{font-size:13px;color:var(--muted)}
+.graficos{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.graficos .card svg{width:100%;height:150px;margin-top:14px;overflow:visible}
+.graficos text{font:11px Inter;fill:var(--muted)}
+.ao-vivo{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.ao-vivo::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--wa);animation:pulsa 2s infinite}
+@keyframes pulsa{50%{opacity:.3}}
+.fonte{font-size:12px;color:var(--muted);margin-top:16px}
+@media (max-width:900px){.diag,.graficos{grid-template-columns:1fr;gap:32px}.cards{grid-template-columns:1fr 1fr}.res{padding:24px}}
+
 /* Contato */
 .contato{display:grid;grid-template-columns:1fr 1fr;gap:80px}
 .dados{margin-top:40px;display:grid;gap:22px;font-size:15px}
@@ -161,6 +204,8 @@ footer a:hover{color:var(--verde)}
     <ul>
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#sobre">Por que a GEOSAN</a></li>
+      <li><a href="#diagnostico">Diagnóstico</a></li>
+      <li><a href="#monitor">Monitor</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
     <a class="btn btn-wa" data-wa="Olá, GEOSAN! Gostaria de falar com um especialista." href="#"><svg><use href="#i-wa"/></svg><span>Falar com especialista</span></a>
@@ -237,6 +282,52 @@ footer a:hover{color:var(--verde)}
       <div class="rv"><h3>Estudos que passam no órgão</h3><p>Análises fundamentadas na legislação vigente para reduzir exigências e indeferimentos.</p></div>
       <div class="rv"><h3>Presença local</h3><p>Conhecemos a região e acompanhamos cada protocolo até a emissão final.</p></div>
     </div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <p class="rotulo rv">Diagnóstico rápido</p>
+    <h2 class="rv">Descubra em 30 segundos o que o seu empreendimento precisa.</h2>
+    <p class="lead rv">Responda quatro perguntas e veja as licenças, estudos e programas mais comuns para o seu caso.</p>
+    <div class="diag">
+      <form class="perg rv" id="perg" onsubmit="return false">
+        <fieldset><legend>Atividade</legend><div class="chips" data-q="ativ"></div></fieldset>
+        <fieldset><legend>Porte</legend><div class="chips" data-q="porte"></div></fieldset>
+        <fieldset><legend>Usa água de poço ou rio?</legend><div class="chips" data-q="agua"></div></fieldset>
+        <fieldset><legend>Funcionários</legend><div class="chips" data-q="func"></div></fieldset>
+      </form>
+      <div class="res rv" aria-live="polite">
+        <div class="res-top"><div><b id="qtd">0</b> <span>exigências prováveis</span></div><span id="prazo"></span></div>
+        <ul class="itens" id="itens"></ul>
+        <div class="barra"><i id="barra"></i></div>
+        <p class="nota">Estimativa orientativa com base em casos típicos no Pará. Cada caso depende do enquadramento no órgão; confirmamos tudo numa análise gratuita.</p>
+        <a class="btn btn-wa" id="diag-wa" href="#" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>Enviar este checklist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="monitor">
+  <div class="wrap">
+    <div class="mon-top">
+      <div>
+        <p class="rotulo rv">Monitor regional</p>
+        <h2 class="rv">Chuva e rios do Oeste do Pará, ao vivo.</h2>
+      </div>
+      <div class="cidades rv" id="cidades"></div>
+    </div>
+    <div class="cards">
+      <div class="card"><small>Agora</small><b id="m-temp">–</b><span id="m-umid">carregando…</span></div>
+      <div class="card"><small>Chuva nos últimos 7 dias</small><b id="m-chuva">–</b><span>acumulado</span></div>
+      <div class="card"><small>Vazão do rio</small><b id="m-vazao">–</b><span>m³/s hoje</span></div>
+      <div class="card"><small>Em relação ao normal</small><b id="m-anom">–</b><span id="m-anom-t">mediana histórica</span></div>
+    </div>
+    <div class="graficos">
+      <div class="card"><small>Chuva diária (mm) · 7 dias + previsão de 3</small><svg id="g-chuva" role="img" aria-label="Gráfico de chuva diária"></svg></div>
+      <div class="card"><small>Vazão do rio (m³/s) · 30 dias + previsão de 7</small><svg id="g-rio" role="img" aria-label="Gráfico de vazão do rio"></svg></div>
+    </div>
+    <p class="fonte"><span class="ao-vivo" id="m-hora">Conectando…</span> · Dados: Open-Meteo (modelos meteorológicos e GloFAS/Copernicus). Valores modelados, para referência.</p>
   </div>
 </section>
 
@@ -347,6 +438,125 @@ document.getElementById('form').addEventListener('submit', e => {
   if (v('msg')) msg += `\n${v('msg')}`;
   window.open(waLink(msg), '_blank', 'noopener');
 });
+
+// Diagnóstico: regras simples de enquadramento por atividade, porte, água e equipe
+const opcoes = {
+  ativ: [['ind', 'Indústria'], ['com', 'Comércio e serviços'], ['posto', 'Posto de combustível'], ['min', 'Mineração'], ['rural', 'Propriedade rural'], ['obra', 'Loteamento ou obra']],
+  porte: [['p', 'Pequeno'], ['m', 'Médio'], ['g', 'Grande']],
+  agua: [['nao', 'Não'], ['poco', 'Poço'], ['rio', 'Rio ou igarapé']],
+  func: [['0', 'Nenhum'], ['1', '1 a 19'], ['20', '20 ou mais']]
+};
+const escolha = {ativ: 'ind', porte: 'm', agua: 'poco', func: '1'};
+document.querySelectorAll('#perg .chips').forEach(box => {
+  const q = box.dataset.q;
+  box.innerHTML = opcoes[q].map(([v, t]) => `<input type="radio" name="${q}" id="${q}-${v}" value="${v}"${escolha[q] === v ? ' checked' : ''}><label for="${q}-${v}">${t}</label>`).join('');
+  box.addEventListener('change', e => { escolha[q] = e.target.value; diagnostica(); });
+});
+
+function diagnostica() {
+  const {ativ, porte, agua, func} = escolha;
+  const L = [];
+  const add = (nome, orgao, dias) => L.push({nome, orgao, dias});
+  const estadual = ativ === 'min' || ativ === 'posto' || porte === 'g' || (ativ === 'ind' && porte !== 'p');
+  const fase = {p: 60, m: 120, g: 240}[porte];
+  if (ativ === 'rural') {
+    add('Cadastro Ambiental Rural (CAR)', 'SICAR / SEMAS-PA', 30);
+    add('Licença de Atividade Rural (LAR)', 'SEMAS-PA', fase);
+    if (porte !== 'p') add('Plano de Recuperação de Áreas Degradadas (PRADA)', 'SEMAS-PA', 90);
+  } else {
+    add(porte === 'p' && !estadual ? 'Licença ambiental simplificada' : 'Licenças Prévia, de Instalação e de Operação', estadual ? 'SEMAS-PA' : 'SEMMA municipal', fase);
+    if (porte !== 'p' || ativ === 'min') add(porte === 'g' ? 'Estudo de Impacto Ambiental (EIA/RIMA)' : 'Relatório Ambiental Simplificado (RAS)', estadual ? 'SEMAS-PA' : 'SEMMA municipal', porte === 'g' ? 180 : 60);
+    add('Plano de Gerenciamento de Resíduos (PGRS)', 'Órgão licenciador', 20);
+  }
+  if (ativ === 'min') { add('Título minerário (requerimento, alvará ou PLG)', 'ANM', 180); add('Plano de Recuperação de Área Degradada (PRAD)', 'SEMAS-PA / ANM', 45); }
+  if (ativ === 'posto') { add('Investigação de passivo ambiental do solo', 'SEMAS-PA', 45); add('Monitoramento de águas subterrâneas', 'SEMAS-PA', 30); }
+  if (ativ === 'obra') add('Licença de supressão vegetal, se houver', 'Órgão licenciador', 60);
+  if (agua !== 'nao') add(agua === 'poco' ? 'Outorga de poço e teste de vazão' : 'Outorga de captação superficial', 'SEMAS-PA (recursos hídricos)', 90);
+  if (func !== '0') {
+    add('Programa de Gerenciamento de Riscos (PGR – NR-1)', 'Ministério do Trabalho', 20);
+    add('PCMSO (NR-7)', 'Médico do trabalho', 15);
+    if (['ind', 'posto', 'min'].includes(ativ) || func === '20') add('LTCAT e laudos de insalubridade', 'INSS / eSocial', 25);
+    if (func === '20' && ativ !== 'com') add('CIPA e treinamentos obrigatórios', 'Ministério do Trabalho', 30);
+  }
+  // Os processos correm em paralelo: o prazo total é o do mais longo, com folga
+  const prazo = Math.round(Math.max(...L.map(i => i.dias)) * 1.15);
+  const meses = Math.max(1, Math.round(prazo / 30));
+  document.getElementById('qtd').textContent = L.length;
+  document.getElementById('prazo').textContent = `prazo típico: ~${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+  document.getElementById('barra').style.width = Math.min(100, prazo / 3.6) + '%';
+  document.getElementById('itens').innerHTML = L.map((i, n) => `<li style="animation-delay:${n * 40}ms">${i.nome}<small>${i.orgao}</small><em>~${i.dias < 45 ? i.dias + ' dias' : Math.round(i.dias / 30) + ' meses'}</em></li>`).join('');
+  const rot = q => opcoes[q].find(([v]) => v === escolha[q])[1];
+  const msg = `Olá, GEOSAN! Fiz o diagnóstico no site.\nAtividade: ${rot('ativ')} · Porte: ${rot('porte')} · Água: ${rot('agua')} · Funcionários: ${rot('func')}\n\nChecklist:\n${L.map(i => '• ' + i.nome).join('\n')}\n\nPodemos conversar?`;
+  document.getElementById('diag-wa').href = waLink(msg);
+}
+diagnostica();
+
+// Monitor regional: Open-Meteo (tempo) e GloFAS (vazão), sem chave e com CORS
+const cidades = [
+  {n: 'Santarém', lat: -2.44, lon: -54.71, rio: [-2.42, -54.72], rioN: 'Tapajós/Amazonas'},
+  {n: 'Itaituba', lat: -4.28, lon: -55.98, rio: [-4.27, -55.99], rioN: 'Tapajós'},
+  {n: 'Óbidos', lat: -1.92, lon: -55.52, rio: [-1.92, -55.51], rioN: 'Amazonas'},
+  {n: 'Altamira', lat: -3.20, lon: -52.21, rio: [-3.22, -52.21], rioN: 'Xingu'}
+];
+let cidade = 0;
+const boxC = document.getElementById('cidades');
+boxC.innerHTML = cidades.map((c, i) => `<button type="button" aria-pressed="${i === 0}" data-i="${i}">${c.n}</button>`).join('');
+boxC.addEventListener('click', e => {
+  if (!e.target.dataset.i) return;
+  cidade = +e.target.dataset.i;
+  boxC.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === e.target));
+  monitora();
+});
+const fmt = n => Math.round(n).toLocaleString('pt-BR');
+const $ = id => document.getElementById(id);
+
+function grafico(svg, valores, hoje, tipo) {
+  const W = svg.clientWidth || 400, H = 150, pb = 20, max = Math.max(...valores, 1) * 1.1;
+  const min = tipo === 'linha' ? Math.min(...valores) * .97 : 0;
+  const y = v => (H - pb) - (v - min) / (max - min) * (H - pb - 8);
+  const dx = W / valores.length;
+  let g = `<line x1="0" x2="${W}" y1="${H - pb}" y2="${H - pb}" stroke="#E5E7EB"/>`;
+  g += `<line x1="${dx * hoje + dx / 2}" x2="${dx * hoje + dx / 2}" y1="0" y2="${H - pb}" stroke="#64748B" stroke-dasharray="3 3"/><text x="${dx * hoje + dx / 2 + 4}" y="12">hoje</text>`;
+  if (tipo === 'barras') {
+    g += valores.map((v, i) => `<rect x="${i * dx + dx * .18}" width="${dx * .64}" y="${y(v)}" height="${H - pb - y(v)}" rx="3" fill="${i > hoje ? '#9BC9AC' : '#2F7D4F'}"><title>${v.toFixed(1)} mm</title></rect>`).join('');
+  } else {
+    const pts = valores.map((v, i) => `${i * dx + dx / 2},${y(v)}`);
+    g += `<polyline points="${pts.slice(0, hoje + 1).join(' ')}" fill="none" stroke="#1667B0" stroke-width="2.5"/>`;
+    g += `<polyline points="${pts.slice(hoje).join(' ')}" fill="none" stroke="#1667B0" stroke-width="2.5" stroke-dasharray="5 4" opacity=".6"/>`;
+    g += `<circle cx="${dx * hoje + dx / 2}" cy="${y(valores[hoje])}" r="4.5" fill="#1667B0"/>`;
+  }
+  g += `<text x="0" y="${H - 4}">${tipo === 'barras' ? '7 dias atrás' : '30 dias atrás'}</text><text x="${W}" y="${H - 4}" text-anchor="end">previsão</text>`;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = g;
+}
+
+async function monitora() {
+  const c = cidades[cidade], pedido = cidade;
+  $('m-hora').textContent = 'Atualizando…';
+  try {
+    const [t, r] = await Promise.all([
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}&current=temperature_2m,relative_humidity_2m&daily=precipitation_sum&past_days=7&forecast_days=3&timezone=America%2FSantarem`).then(x => x.json()),
+      fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${c.rio[0]}&longitude=${c.rio[1]}&daily=river_discharge,river_discharge_median&past_days=30&forecast_days=7`).then(x => x.json())
+    ]);
+    if (pedido !== cidade) return;
+    const chuva = t.daily.precipitation_sum.map(v => v || 0);
+    $('m-temp').textContent = Math.round(t.current.temperature_2m) + '°C';
+    $('m-umid').textContent = `umidade ${t.current.relative_humidity_2m}%`;
+    $('m-chuva').textContent = chuva.slice(0, 7).reduce((a, b) => a + b, 0).toFixed(0) + ' mm';
+    const vaz = r.daily.river_discharge, med = r.daily.river_discharge_median, h = 30;
+    $('m-vazao').textContent = fmt(vaz[h]);
+    const anom = (vaz[h] / med[h] - 1) * 100;
+    $('m-anom').textContent = (anom > 0 ? '+' : '') + anom.toFixed(1).replace('.', ',') + '%';
+    $('m-anom-t').textContent = `rio ${c.rioN} · ${Math.abs(anom) < 5 ? 'dentro do normal' : anom > 0 ? 'acima do normal' : 'abaixo do normal'}`;
+    grafico($('g-chuva'), chuva, 7, 'barras');
+    grafico($('g-rio'), vaz, h, 'linha');
+    $('m-hora').textContent = 'Atualizado às ' + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+  } catch {
+    $('m-hora').textContent = 'Sem conexão com a fonte de dados. Tentando de novo em instantes…';
+  }
+}
+// Só busca quando a seção aparece; depois atualiza a cada 10 minutos
+new IntersectionObserver(([e], o) => { if (e.isIntersecting) { monitora(); setInterval(monitora, 6e5); o.disconnect(); } }, {rootMargin: '200px'}).observe($('monitor'));
 </script>
 </body>
 </html>
