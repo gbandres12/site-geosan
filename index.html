@@ -138,6 +138,12 @@ header.scrolled{border-color:var(--linha)}
 .ao-vivo::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--wa);animation:pulsa 2s infinite}
 @keyframes pulsa{50%{opacity:.3}}
 .fonte{font-size:12px;color:var(--muted);margin-top:16px}
+.ouro{margin-top:56px;padding-top:40px;border-top:1px solid var(--linha)}
+.ouro h3{font-size:22px}
+.ouro .cards{margin-top:24px}
+.ouro .card b{color:#9A6B00}
+.ouro .graficos{grid-template-columns:1fr}
+.sobe{color:var(--acento)!important}.desce{color:#B42318!important}
 @media (max-width:900px){.diag,.graficos{grid-template-columns:1fr;gap:32px}.cards{grid-template-columns:1fr 1fr}.res{padding:24px}}
 
 /* Em campo */
@@ -340,7 +346,7 @@ footer a:hover{color:var(--verde)}
     <div class="mon-top">
       <div>
         <p class="rotulo rv">Monitor regional</p>
-        <h2 class="rv">Chuva e rios do Oeste do Pará, ao vivo.</h2>
+        <h2 class="rv">Chuva, rios e ouro no Oeste do Pará, ao vivo.</h2>
       </div>
       <div class="cidades rv" id="cidades"></div>
     </div>
@@ -355,6 +361,17 @@ footer a:hover{color:var(--verde)}
       <div class="card"><small>Vazão do rio (m³/s) · 30 dias + previsão de 7</small><svg id="g-rio" role="img" aria-label="Gráfico de vazão do rio"></svg></div>
     </div>
     <p class="fonte"><span class="ao-vivo" id="m-hora">Conectando…</span> · Dados: Open-Meteo (modelos meteorológicos e GloFAS/Copernicus). Valores modelados, para referência.</p>
+    <div class="ouro">
+      <h3 class="rv">Cotação do ouro</h3>
+      <div class="cards">
+        <div class="card"><small>Brasil (spot)</small><b id="o-brl">–</b><span>R$ por grama</span></div>
+        <div class="card"><small>Internacional</small><b id="o-usd">–</b><span>US$ por onça-troy</span></div>
+        <div class="card"><small>Referência Tapajós</small><b id="o-reg">–</b><span id="o-reg-t">R$/g estimado ao produtor</span></div>
+        <div class="card"><small>Variação no dia</small><b id="o-var">–</b><span id="o-dolar">dólar –</span></div>
+      </div>
+      <div class="graficos"><div class="card"><small>Ouro no Brasil (R$/g) · últimos 30 dias</small><svg id="g-ouro" role="img" aria-label="Gráfico do preço do ouro em reais por grama"></svg></div></div>
+      <p class="fonte"><span id="o-hora">Conectando…</span> · Fonte: AwesomeAPI (mercado internacional convertido em reais). A referência regional é uma estimativa e varia por comprador, teor e pureza; a GEOSAN não compra nem vende ouro.</p>
+    </div>
   </div>
 </section>
 
@@ -584,6 +601,39 @@ async function monitora() {
 }
 // Só busca quando a seção aparece; depois atualiza a cada 10 minutos
 new IntersectionObserver(([e], o) => { if (e.isIntersecting) { monitora(); setInterval(monitora, 6e5); o.disconnect(); } }, {rootMargin: '200px'}).observe($('monitor'));
+
+// Ouro: cotação internacional em reais; a referência regional aplica um deságio típico de compra
+const ONCA = 31.1035, DESAGIO_REGIONAL = 0.12;
+async function ouro() {
+  try {
+    const [agora, hist] = await Promise.all([
+      fetch('https://economia.awesomeapi.com.br/json/last/XAU-BRL,XAU-USD,USD-BRL').then(x => x.json()),
+      fetch('https://economia.awesomeapi.com.br/json/daily/XAU-BRL/30').then(x => x.json())
+    ]);
+    const g = +agora.XAUBRL.bid / ONCA, pct = +agora.XAUBRL.pctChange;
+    const real = n => n.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    $('o-brl').textContent = 'R$ ' + real(g);
+    $('o-usd').textContent = 'US$ ' + fmt(+agora.XAUUSD.bid);
+    $('o-reg').textContent = 'R$ ' + real(g * (1 - DESAGIO_REGIONAL));
+    $('o-reg-t').textContent = `estimativa: spot − ${DESAGIO_REGIONAL * 100}%`;
+    $('o-var').textContent = (pct > 0 ? '+' : '') + pct.toFixed(2).replace('.', ',') + '%';
+    $('o-var').className = pct >= 0 ? 'sobe' : 'desce';
+    $('o-dolar').textContent = 'dólar R$ ' + (+agora.USDBRL.bid).toFixed(2).replace('.', ',');
+    // A série diária vem do mais recente para o mais antigo
+    const serie = hist.map(d => +d.bid / ONCA).reverse();
+    const svg = $('g-ouro'), W = svg.clientWidth || 600, H = 150, pb = 20;
+    const mn = Math.min(...serie) * .995, mx = Math.max(...serie) * 1.005;
+    const y = v => (H - pb) - (v - mn) / (mx - mn) * (H - pb - 8), dx = W / (serie.length - 1);
+    const pts = serie.map((v, i) => `${i * dx},${y(v)}`).join(' ');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.innerHTML = `<line x1="0" x2="${W}" y1="${H - pb}" y2="${H - pb}" stroke="#E5E7EB"/><polygon points="0,${H - pb} ${pts} ${W},${H - pb}" fill="#C9A227" opacity=".12"/><polyline points="${pts}" fill="none" stroke="#B8860B" stroke-width="2.5"/><circle cx="${W}" cy="${y(serie.at(-1))}" r="4.5" fill="#B8860B"/><text x="0" y="${H - 4}">30 dias atrás</text><text x="${W}" y="${H - 4}" text-anchor="end">R$ ${real(serie.at(-1))}</text><text x="0" y="12">máx. R$ ${real(Math.max(...serie))}</text>`;
+    const data = new Date(agora.XAUBRL.create_date.replace(' ', 'T'));
+    $('o-hora').textContent = 'Cotação de ' + data.toLocaleString('pt-BR', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'});
+  } catch {
+    $('o-hora').textContent = 'Cotação indisponível no momento.';
+  }
+}
+new IntersectionObserver(([e], o) => { if (e.isIntersecting) { ouro(); setInterval(ouro, 3e5); o.disconnect(); } }, {rootMargin: '200px'}).observe(document.querySelector('.ouro'));
 </script>
 </body>
 </html>
